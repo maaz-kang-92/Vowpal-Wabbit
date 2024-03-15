@@ -1,0 +1,241 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 10,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/ext_libs/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        },
+        "BUILD_TESTING": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "RAPIDJSON_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "FMT_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "SPDLOG_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "VW_BOOST_MATH_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "VW_ZLIB_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "VW_GTEST_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "VW_EIGEN_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "VW_STRING_VIEW_LITE_SYS_DEP": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-debug",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Debug"
+        },
+        "VW_FEAT_CB_GRAPH_FEEDBACK": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-release",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        },
+        "VW_FEAT_CB_GRAPH_FEEDBACK": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-sanitizer-base",
+      "inherits": "default",
+      "cacheVariables": {
+        "USE_LATEST_STD": {
+          "type": "BOOL",
+          "value": "On"
+        },
+        "VW_FEAT_FLATBUFFERS": {
+          "type": "BOOL",
+          "value": "On"
+        },
+        "VW_FEAT_CSV": {
+          "type": "BOOL",
+          "value": "On"
+        },
+        "VW_FEAT_CB_GRAPH_FEEDBACK": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-asan-debug",
+      "inherits": "vcpkg-sanitizer-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Debug"
+        },
+        "VW_USE_ASAN": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-asan-release",
+      "inherits": "vcpkg-sanitizer-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        },
+        "VW_USE_ASAN": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-ubsan-debug",
+      "inherits": "vcpkg-sanitizer-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Debug"
+        },
+        "VW_USE_UBSAN": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "vcpkg-ubsan-release",
+      "inherits": "vcpkg-sanitizer-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        },
+        "VW_USE_UBSAN": {
+          "type": "BOOL",
+          "value": "On"
+        }
+      }
+    },
+    {
+      "name": "wasm",
+      "description": "CMAKE_TOOLCHAIN_FILE has to be passed explicitly since emcmake overwrites it if we define it here.",
+      "inherits": "default",
+      "cacheVariables": {
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE":
+        {
+          "type": "FILEPATH",
+          "value": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+        },
+        "VW_BUILD_WASM": {
+          "type": "BOOL",
+          "value": "On"
+        },
+        "USE_LATEST_STD": {
+          "type": "BOOL",
+          "value": "On"
+        },
+        "VW_FEAT_FLATBUFFERS": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "VW_FEAT_CSV": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "VW_FEAT_LDA": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "VW_FEAT_SEARCH": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "VW_FEAT_NETWORKING": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "BUILD_TESTING": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "VW_BUILD_VW_C_WRAPPER": {
+          "type": "BOOL",
+          "value": "Off"
+        },
+        "VCPKG_TARGET_TRIPLET": {
+          "type": "STRING",
+          "value": "wasm32-emscripten"
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vcpkg-debug",
+      "configurePreset": "vcpkg-debug"
+    },
+    {
+      "name": "vcpkg-release",
+      "configurePreset": "vcpkg-release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "vcpkg-debug",
+      "configurePreset": "vcpkg-debug",
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error", "stopOnFailure": true },
+      "filter": { "include": { "label": "VWTestList" } }
+    },
+    {
+      "name": "vcpkg-release",
+      "configurePreset": "vcpkg-release",
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error", "stopOnFailure": true },
+      "filter": { "include": { "label": "VWTestList" } }
+    }
+  ]
+}
